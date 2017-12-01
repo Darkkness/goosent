@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Goosent</string>
+  <string name="main_screen_tab1_name">Chat</string>
+  <string name="main_screen_tab2_name">Sets</string>
+  <string name="main_screen_tab3_name">Edit</string>
+  <string name="main_screen_tab4_name">Sidebar</string>
+  <string name="search_title">Поиск (тест)</string>
+  <string name="showTabLabels">true</string>
+  <string name="menu_item_block_screen">Экран всегда включен</string>
+  <string name="menu_item_settings">Настройки</string>
+</resources>
