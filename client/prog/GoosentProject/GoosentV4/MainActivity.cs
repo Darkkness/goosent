@@ -21,7 +21,7 @@ namespace Goosent
         private Android.Support.V4.Widget.DrawerLayout drawerLayout;
         private NavigationView navigationView;
         private CompoundButton switchActionView;
-        
+
         ActionBarDrawerToggle mDrawerToggle;
         Android.Support.V7.App.ActionBar actionBar;
 
@@ -42,7 +42,7 @@ namespace Goosent
             toolbar = (Android.Support.V7.Widget.Toolbar)FindViewById(Resource.Id.toolbar);
             toolbar.SetTitle(Resource.String.app_name);
             toolbar.InflateMenu(Resource.Menu.menu);
-            
+
         }
 
         private void InitNavigationView()
@@ -74,7 +74,8 @@ namespace Goosent
                 // Keep screen awake
                 Console.WriteLine("Keeping screen awake");
                 Window.AddFlags(WindowManagerFlags.KeepScreenOn);
-            } else
+            }
+            else
             {
                 Console.WriteLine("Not keeping screen awake");
                 Window.ClearFlags(WindowManagerFlags.KeepScreenOn);
@@ -82,29 +83,28 @@ namespace Goosent
         }
 
         private void InitTabs()
-    {
-        viewPager = (ViewPager)FindViewById(Resource.Id.view_pager);
-        TabsPagerFragmentAdapter adapter = new TabsPagerFragmentAdapter(SupportFragmentManager);
-        viewPager.Adapter = adapter;
-
-        TabLayout tabLayout = (TabLayout)FindViewById(Resource.Id.tab_layout);
-        tabLayout.SetupWithViewPager(viewPager);
-
-        tabLayout.GetTabAt(1).SetIcon(Resource.Drawable.ic_tab_chat);
-        tabLayout.GetTabAt(0).SetIcon(Resource.Drawable.ic_tab_select_set);
-        tabLayout.GetTabAt(2).SetIcon(Resource.Drawable.ic_tab_edit_set);
-    }
-
-    void AddTab(TabLayout tabLayout, string label, Drawable icon, bool iconOnly = false)
-    {
-        var newTab = tabLayout.NewTab();
-        if (!iconOnly)
         {
-            newTab.SetText(label);
+            viewPager = (ViewPager)FindViewById(Resource.Id.view_pager);
+            TabsPagerFragmentAdapter adapter = new TabsPagerFragmentAdapter(SupportFragmentManager, ApplicationContext);
+            viewPager.Adapter = adapter;
+            TabLayout tabLayout = (TabLayout)FindViewById(Resource.Id.tab_layout);
+            tabLayout.SetupWithViewPager(viewPager);
+
+            tabLayout.GetTabAt(0).SetIcon(Resource.Drawable.ic_tab_chat);
+            tabLayout.GetTabAt(1).SetIcon(Resource.Drawable.ic_tab_select_set);
+            tabLayout.GetTabAt(2).SetIcon(Resource.Drawable.ic_tab_edit_set);
         }
-        newTab.SetIcon(icon);
-        tabLayout.AddTab(newTab);
+
+        void AddTab(TabLayout tabLayout, string label, Drawable icon, bool iconOnly = false)
+        {
+            var newTab = tabLayout.NewTab();
+            if (!iconOnly)
+            {
+                newTab.SetText(label);
+            }
+            newTab.SetIcon(icon);
+            tabLayout.AddTab(newTab);
+        }
     }
-}
 }
 

@@ -13,16 +13,16 @@ using Android.Widget;
 
 namespace Goosent
 {
-    public class FragmentSelectSet : Android.Support.V4.App.Fragment
+    public class FragmentSelectSet : BaseTabFragment
     {
 
-        private View view;
-
-        public static FragmentChat getInstance()
+        public static FragmentSelectSet getInstance(Context context)
         {
             Bundle args = new Bundle();
-            FragmentChat cFragment = new FragmentChat();
+            FragmentSelectSet cFragment = new FragmentSelectSet();
             cFragment.Arguments = args;
+            cFragment.SetContext(context);
+            cFragment.SetTitle(context.GetString(Resource.String.tab_item_select_set));
 
             return cFragment;
         }
@@ -33,5 +33,11 @@ namespace Goosent
             view = inflater.Inflate(Resource.Layout.FragmentSelectSetLayout, container, false);
             return view;
         }
+
+        public void SetContext(Context context)
+        {
+            this.context = context;
+        }
+
     }
 }

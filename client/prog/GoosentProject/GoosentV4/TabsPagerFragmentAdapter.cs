@@ -14,17 +14,18 @@ using Java.Lang;
 
 namespace Goosent
 {
-    class TabsPagerFragmentAdapter : FragmentPagerAdapter
+    class TabsPagerFragmentAdapter : FragmentStatePagerAdapter
     {
-        private List<string> tabs = new List<string>();
+        private Dictionary<int, BaseTabFragment> tabs;
+        private Context context;
 
-        public TabsPagerFragmentAdapter(Android.Support.V4.App.FragmentManager fm) : base(fm)
+        public TabsPagerFragmentAdapter(Android.Support.V4.App.FragmentManager fm, Context context) : base(fm)
         {
-            tabs.Add("Edit set");
-            tabs.Add("Chat");
-            tabs.Add("Select set");
+            this.context = context;
+            InitTabsDict(context);
         }
 
+        
         public override int Count
         {
             get { return tabs.Count; }
@@ -32,28 +33,25 @@ namespace Goosent
 
         // Show tab labels
 
-        //public override ICharSequence GetPageTitleFormatted(int position)
-        //{
-        //    ICharSequence convertedString = new Java.Lang.String(tabs[position]);
-        //    return convertedString;
-        //}
+        public override ICharSequence GetPageTitleFormatted(int position)
+        {
+            ICharSequence convertedString = new Java.Lang.String(tabs[position].GetTitle());
+            return convertedString;
+        }
 
         public override Android.Support.V4.App.Fragment GetItem(int position)
         {
-            Console.WriteLine(position);
-            switch (position)
-            {
-                case 0:
-                    return FragmentChat.getInstance();
+            Console.WriteLine("322 " + position.ToString());
 
-                case 1:
-                    return FragmentSelectSet.getInstance();
+            return tabs[position];
+        }
 
-                case 2:
-                    return FragmentEditSets.getInstance();
-            }
-
-            return null;
+        private void InitTabsDict(Context context)
+        {
+            tabs = new Dictionary<int, BaseTabFragment>();
+            tabs.Add(0, FragmentChat.getInstance(context));
+            tabs.Add(1, FragmentSelectSet.getInstance(context));
+            tabs.Add(2, FragmentEditSets.getInstance(context));
         }
     }
 }

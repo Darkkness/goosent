@@ -13,4 +13,8 @@
 
   <string name="drawerToggle_open">open</string>
   <string name="drawerToggle_close">close</string>
+
+  <string name="tab_item_chat">Chat</string>
+  <string name="tab_item_select_set">Select set</string>
+  <string name="tab_item_edit_set">Edit set</string>
 </resources>
