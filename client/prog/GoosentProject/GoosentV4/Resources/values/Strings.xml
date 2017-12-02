@@ -9,4 +9,8 @@
   <string name="showTabLabels">true</string>
   <string name="menu_item_block_screen">Экран всегда включен</string>
   <string name="menu_item_settings">Настройки</string>
+  <string name="menu_item_edit_set">Редактировать набор</string>
+
+  <string name="drawerToggle_open">open</string>
+  <string name="drawerToggle_close">close</string>
 </resources>

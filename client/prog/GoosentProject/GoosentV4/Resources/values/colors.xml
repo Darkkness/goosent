@@ -14,5 +14,5 @@
   <color name="cachecolor">#8ad0e8</color>
   <color name="primary">#00BCD5</color>
   <color name="primaryDark">#0098A6</color>
-  <color name="accent">#009788</color>
+  <color name="accentColor">#009788</color>
 </resources>

@@ -40,20 +40,17 @@ namespace Goosent
 
         public override Android.Support.V4.App.Fragment GetItem(int position)
         {
+            Console.WriteLine(position);
             switch (position)
             {
                 case 0:
                     return FragmentChat.getInstance();
-                    break;
 
                 case 1:
                     return FragmentSelectSet.getInstance();
-                    break;
 
                 case 2:
                     return FragmentEditSets.getInstance();
-                    break;
-
             }
 
             return null;

@@ -1260,7 +1260,7 @@ namespace Goosent
 			public const int abc_tint_switch_track = 2131427433;
 			
 			// aapt resource value: 0x7f0b0055
-			public const int accent = 2131427413;
+			public const int accentColor = 2131427413;
 			
 			// aapt resource value: 0x7f0b0004
 			public const int accent_material_dark = 2131427332;
@@ -2681,6 +2681,9 @@ namespace Goosent
 			// aapt resource value: 0x7f070026
 			public const int multiply = 2131165222;
 			
+			// aapt resource value: 0x7f0700b6
+			public const int nav_menu_item_keep_awake = 2131165366;
+			
 			// aapt resource value: 0x7f070092
 			public const int navigation_header_container = 2131165330;
 			
@@ -2852,8 +2855,8 @@ namespace Goosent
 			// aapt resource value: 0x7f07001e
 			public const int tabMode = 2131165214;
 			
-			// aapt resource value: 0x7f07009c
-			public const int tab_layout = 2131165340;
+			// aapt resource value: 0x7f07009b
+			public const int tab_layout = 2131165339;
 			
 			// aapt resource value: 0x7f070019
 			public const int text = 2131165209;
@@ -2891,8 +2894,8 @@ namespace Goosent
 			// aapt resource value: 0x7f07006e
 			public const int title_template = 2131165294;
 			
-			// aapt resource value: 0x7f07009b
-			public const int toolbar = 2131165339;
+			// aapt resource value: 0x7f07009d
+			public const int toolbar = 2131165341;
 			
 			// aapt resource value: 0x7f07003d
 			public const int top = 2131165245;
@@ -2930,8 +2933,8 @@ namespace Goosent
 			// aapt resource value: 0x7f070016
 			public const int view_offset_helper = 2131165206;
 			
-			// aapt resource value: 0x7f07009d
-			public const int view_pager = 2131165341;
+			// aapt resource value: 0x7f07009c
+			public const int view_pager = 2131165340;
 			
 			// aapt resource value: 0x7f0700b3
 			public const int visible = 2131165363;
@@ -3196,6 +3199,12 @@ namespace Goosent
 			// aapt resource value: 0x7f030041
 			public const int tooltip = 2130903105;
 			
+			// aapt resource value: 0x7f030042
+			public const int widget_check = 2130903106;
+			
+			// aapt resource value: 0x7f030043
+			public const int widget_switch = 2130903107;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -3333,6 +3342,12 @@ namespace Goosent
 			// aapt resource value: 0x7f080023
 			public const int character_counter_pattern = 2131230755;
 			
+			// aapt resource value: 0x7f080034
+			public const int drawerToggle_close = 2131230772;
+			
+			// aapt resource value: 0x7f080033
+			public const int drawerToggle_open = 2131230771;
+			
 			// aapt resource value: 0x7f08002a
 			public const int main_screen_tab1_name = 2131230762;
 			
@@ -3347,6 +3362,9 @@ namespace Goosent
 			
 			// aapt resource value: 0x7f080030
 			public const int menu_item_block_screen = 2131230768;
+			
+			// aapt resource value: 0x7f080032
+			public const int menu_item_edit_set = 2131230770;
 			
 			// aapt resource value: 0x7f080031
 			public const int menu_item_settings = 2131230769;
