@@ -17,4 +17,6 @@
   <string name="tab_item_chat">Chat</string>
   <string name="tab_item_select_set">Select set</string>
   <string name="tab_item_edit_set">Edit set</string>
+
+  <string name="tabBarHeight">20dp</string>
 </resources>

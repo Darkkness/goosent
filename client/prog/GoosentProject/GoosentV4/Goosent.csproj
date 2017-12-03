@@ -105,6 +105,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\ChatArrayAdapter.cs" />
     <Compile Include="BaseTabFragment.cs" />
     <Compile Include="FragmentSelectSet.cs" />
     <Compile Include="MainActivity.cs" />
@@ -112,7 +113,8 @@
     <Compile Include="FragmentEditSets.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TabsPagerFragmentAdapter.cs" />
+    <Compile Include="Adapters\TabsPagerFragmentAdapter.cs" />
+    <Compile Include="UserMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
@@ -133,6 +135,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\navigation_header.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ChatListViewRow.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

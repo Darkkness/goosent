@@ -11,6 +11,7 @@
       android:layout_centerInParent="true"
       android:background="@color/gray"
       android:text="Edit set"
+      android:layout_marginTop="?attr/actionBarSize"
       android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 </RelativeLayout>
