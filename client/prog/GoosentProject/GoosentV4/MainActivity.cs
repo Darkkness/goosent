@@ -31,6 +31,7 @@ namespace Goosent
         ActionBarDrawerToggle mDrawerToggle;
         Android.Support.V7.App.ActionBar actionBar;
         Spinner spinner;
+        ChatsSpinnerArrayAdapter spinnerAdapter;
 
         DBHandler dbHandler;
 
@@ -40,6 +41,7 @@ namespace Goosent
         // Все что касается сетов
         private ChannelsSet _selectedSet;
         private ChannelsSetsList _setsList;
+        private Channel _selectedChannel;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -111,9 +113,17 @@ namespace Goosent
         {
             spinner = (Spinner)FindViewById(Resource.Id.spinner);
 
-            ChatsSpinnerArrayAdapter spinnerAdapter = new ChatsSpinnerArrayAdapter(this, _selectedSet.Channels);
+            spinnerAdapter = new ChatsSpinnerArrayAdapter(this, _selectedSet.Channels);
             spinner.Adapter = spinnerAdapter;
+            spinner.ItemSelected += Spinner_ItemSelected;
             
+        }
+
+        private void Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            _selectedChannel = _selectedSet.Channels[e.Position];
+            Toast.MakeText(this, "Selected channel: " + _selectedChannel.Name, ToastLength.Short).Show();
+            spinnerAdapter.NotifyDataSetChanged();
         }
 
         private void InitNavigationView()

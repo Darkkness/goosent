@@ -54,7 +54,7 @@ namespace Goosent
         {
             e.View.Selected = true;
             ((MainActivity)Activity).SetSelectedSet(_setsList.SetsList[selectSetListView.CheckedItemPosition]);
-            Console.WriteLine(((MainActivity)Activity).SelectedSet.Name);
+            Toast.MakeText(context, "Selected set: " + ((MainActivity)Activity).SelectedSet.Name, ToastLength.Short).Show();
         }
 
         private async Task StartConstantSelectSetViewUpdating()
