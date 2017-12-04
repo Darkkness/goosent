@@ -11,10 +11,15 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
+using System.Threading.Tasks;
+
 namespace Goosent
 {
     public class FragmentEditSets : BaseTabFragment
     {
+        ListView editSetListView;
+        private Adapters.EditSetArrayAdapter editSetAdapter;
+        public ChannelsSet _currentSet;
 
         public static FragmentEditSets getInstance(Context context)
         {
@@ -31,7 +36,36 @@ namespace Goosent
         {
             // Use this to return your custom view for this Fragment
             view = inflater.Inflate(Resource.Layout.FragmentEditSetLayout, container, false);
+
+            _currentSet = ((MainActivity)Activity).SelectedSet;
+            editSetListView = (ListView)view.FindViewById(Resource.Id.editSet_listView);
+            editSetAdapter = new Adapters.EditSetArrayAdapter(context, _currentSet);
+            editSetListView.Adapter = editSetAdapter;
+            StartConstantEditSetViewUpdating();
+
             return view;
+
+        }
+
+        private async Task StartConstantEditSetViewUpdating()
+        {
+            while (true)
+            {
+                Activity.RunOnUiThread(() =>
+                {
+                    UpdateEditSetListView();
+                });
+
+
+                await Task.Delay(TimeSpan.FromSeconds(0.3));
+            }
+        }
+
+        void UpdateEditSetListView()
+        {
+            Console.WriteLine("From EditFragment: " + _currentSet.Name);
+            _currentSet = ((MainActivity)Activity).SelectedSet;
+            editSetAdapter.NotifyDataSetChanged();
         }
 
         public void SetContext(Context context)

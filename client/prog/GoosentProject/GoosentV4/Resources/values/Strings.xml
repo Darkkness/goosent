@@ -19,4 +19,10 @@
   <string name="tab_item_edit_set">Edit set</string>
 
   <string name="tabBarHeight">20dp</string>
+
+  <string-array name="platformList">
+    <item>twitch</item>
+    <item>youtube</item>
+  </string-array>
+  
 </resources>

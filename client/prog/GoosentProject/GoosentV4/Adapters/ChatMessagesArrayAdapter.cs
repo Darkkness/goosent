@@ -16,12 +16,12 @@ using Android.Text.Style;
 
 namespace Goosent.Adapters
 {
-    class ChatArrayAdapter : BaseAdapter<string>
+    class ChatMessagesArrayAdapter : BaseAdapter<string>
     {
         List<UserMessage> _messages;
         private Context mContext;
 
-        public ChatArrayAdapter(Context context, List<UserMessage> messages)
+        public ChatMessagesArrayAdapter(Context context, List<UserMessage> messages)
         {
             _messages = messages;
             mContext = context;
@@ -55,14 +55,17 @@ namespace Goosent.Adapters
                 row = LayoutInflater.From(mContext).Inflate(Resource.Layout.ChatListViewRow, null, false);
             }
 
-            TextView chatMessageTextTextView = (TextView)row.FindViewById(Resource.Id.chat_listview_row);
+            TextView chatMessageTextTextView = (TextView)row.FindViewById(Resource.Id.chatMessages_row_textView);
 
-            SpannableString chatMessageSpannableString = new SpannableString(new Java.Lang.String(_messages[position].userName + ": " +_messages[position].userMessageText));
+            string htmlChatRow = "";
+            htmlChatRow += "<html><body><font color='" + _messages[position].userColorHex + "'>" + _messages[position].userName + "</font>" + "<font>: " + _messages[position].userMessageText + "</font></body></html>";
+            //SpannableString chatMessageSpannableString = new SpannableString(new Java.Lang.String(_messages[position].userName + ": " +_messages[position].userMessageText));
 
-            chatMessageSpannableString.SetSpan(new ForegroundColorSpan(_messages[position].userColor), 0, _messages[position].userName.Length, SpanTypes.ExclusiveExclusive);
+            //chatMessageSpannableString.SetSpan(new ForegroundColorSpan(_messages[position].userColor), 0, _messages[position].userName.Length, SpanTypes.ExclusiveExclusive);
             //chatUserNameTextView.Text = _messages[position].userName;
             //chatUserNameTextView.SetTextColor(_messages[position].userColor); 
-            chatMessageTextTextView.TextFormatted = chatMessageSpannableString;
+            //chatMessageTextTextView.TextFormatted = chatMessageSpannableString;
+            chatMessageTextTextView.TextFormatted = Html.FromHtml(htmlChatRow);
             return row;
         }
     }

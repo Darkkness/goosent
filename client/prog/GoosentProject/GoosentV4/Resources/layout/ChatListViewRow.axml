@@ -10,7 +10,7 @@
       android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
       android:textAppearance="?android:attr/textAppearanceSmall"
       android:textColor="@color/black"
-      android:id="@+id/chat_listview_row"
+      android:id="@+id/chatMessages_row_textView"
       android:layout_width="wrap_content"
       android:layout_height="match_parent" />
 </LinearLayout>

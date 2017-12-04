@@ -16,7 +16,7 @@ namespace Goosent
 {
     class TabsPagerFragmentAdapter : FragmentStatePagerAdapter
     {
-        private Dictionary<int, BaseTabFragment> tabs;
+        public Dictionary<int, BaseTabFragment> tabs;
         private Context context;
 
         public TabsPagerFragmentAdapter(Android.Support.V4.App.FragmentManager fm, Context context) : base(fm)
@@ -41,7 +41,6 @@ namespace Goosent
 
         public override Android.Support.V4.App.Fragment GetItem(int position)
         {
-            Console.WriteLine("322 " + position.ToString());
 
             return tabs[position];
         }
@@ -53,5 +52,6 @@ namespace Goosent
             tabs.Add(1, FragmentSelectSet.getInstance(context));
             tabs.Add(2, FragmentEditSets.getInstance(context));
         }
+
     }
 }

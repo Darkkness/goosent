@@ -18,14 +18,14 @@ namespace Goosent
         public string userName;
         public string userMessageText;
         public TimeSpan messageTime;
-        public Color userColor;
+        public string userColorHex;
 
-        public UserMessage(string userName, string userMessageText, TimeSpan messageTime, Color userColor)
+        public UserMessage(string userName, string userMessageText, TimeSpan messageTime, string userColorHex)
         {
             this.userName = userName;
             this.userMessageText = userMessageText;
             this.messageTime = messageTime;
-            this.userColor = userColor;
+            this.userColorHex = userColorHex;
         }
     }
 }
