@@ -12,12 +12,13 @@ using Android.Views;
 using Android.Widget;
 
 using System.Threading.Tasks;
+using Android.Support.V7.Widget;
 
 namespace Goosent
 {
     public class FragmentEditSets : BaseTabFragment
     {
-        ListView editSetListView;
+        RecyclerView editSetRecyclerView;
         private Adapters.EditSetArrayAdapter editSetAdapter;
         public ChannelsSet _currentSet;
 
@@ -38,27 +39,20 @@ namespace Goosent
             view = inflater.Inflate(Resource.Layout.FragmentEditSetLayout, container, false);
 
             _currentSet = ((MainActivity)Activity).SelectedSet;
-            editSetListView = (ListView)view.FindViewById(Resource.Id.editSet_listView);
+            editSetRecyclerView = (RecyclerView)view.FindViewById(Resource.Id.editSet_recyclerView);
             editSetAdapter = new Adapters.EditSetArrayAdapter(context, _currentSet);
-            editSetListView.Adapter = editSetAdapter;
-            StartConstantEditSetViewUpdating();
+            editSetRecyclerView.SetLayoutManager(new LinearLayoutManager(context));
+            editSetAdapter.ItemClick += EditSetAdapter_ItemClick;
+            editSetRecyclerView.SetAdapter(editSetAdapter);
+
 
             return view;
 
         }
 
-        private async Task StartConstantEditSetViewUpdating()
+        private void EditSetAdapter_ItemClick(object sender, int e)
         {
-            while (true)
-            {
-                Activity.RunOnUiThread(() =>
-                {
-                    UpdateEditSetListView();
-                });
-
-
-                await Task.Delay(TimeSpan.FromSeconds(0.3));
-            }
+            Toast.MakeText(context, "Item clicked" + e.ToString(), ToastLength.Short).Show();
         }
 
         void UpdateEditSetListView()

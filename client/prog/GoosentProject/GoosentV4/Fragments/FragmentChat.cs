@@ -133,14 +133,6 @@ namespace Goosent
         {
             chatMessages.Add(new UserMessage(fakeNames[random.Next(0, fakeNames.Count-1)], fakeMessages[random.Next(0, fakeMessages.Count - 1)], new TimeSpan(14, 10, 5), String.Format("#{0:X6}", random.Next(0x1000000))));
 
-            
-            
-
-           
-
-
-
-
                 chatAdapter.NotifyDataSetChanged();
 
             if (chatListView.LastVisiblePosition == chatAdapter.Count - 2)

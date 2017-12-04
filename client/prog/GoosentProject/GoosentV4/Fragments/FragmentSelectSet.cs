@@ -44,8 +44,6 @@ namespace Goosent
             selectSetListView.Adapter = selectSetAdapter;
             selectSetListView.ChoiceMode = ChoiceMode.Single;
             selectSetListView.ItemClick += SelectSetListView_ItemClick;
-            StartConstantSelectSetViewUpdating();
-
 
             return view;
         }
@@ -54,22 +52,10 @@ namespace Goosent
         {
             e.View.Selected = true;
             ((MainActivity)Activity).SetSelectedSet(_setsList.SetsList[selectSetListView.CheckedItemPosition]);
-            Toast.MakeText(context, "Selected set: " + ((MainActivity)Activity).SelectedSet.Name, ToastLength.Short).Show();
         }
 
-        private async Task StartConstantSelectSetViewUpdating()
-        {
-            while (true)
-            {
-                Activity.RunOnUiThread(() =>
-                {
-                    UpdateSelectSetListView();
-                });
+               
 
-                
-                await Task.Delay(TimeSpan.FromSeconds(0.3));
-            }
-        }
 
         void UpdateSelectSetListView()
         {

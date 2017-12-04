@@ -13,6 +13,8 @@ using Android.Support.V7.Widget;
 using System.Collections.Generic;
 using Goosent.Adapters;
 using Android.Views.Animations;
+using Android.Content.Res;
+using Android.Graphics;
 
 namespace Goosent
 {
@@ -31,7 +33,7 @@ namespace Goosent
         ActionBarDrawerToggle mDrawerToggle;
         Android.Support.V7.App.ActionBar actionBar;
         Spinner spinner;
-        ChatsSpinnerArrayAdapter spinnerAdapter;
+        ChatsSpinnerArrayAdapter newSpinnerAdapter;
 
         DBHandler dbHandler;
 
@@ -39,9 +41,9 @@ namespace Goosent
         List<string> chatsInSet = new List<string>();
 
         // Все что касается сетов
-        private ChannelsSet _selectedSet;
-        private ChannelsSetsList _setsList;
-        private Channel _selectedChannel;
+        private ChannelsSet SELECTED_SET;
+        private ChannelsSetsList SETS_LIST;
+        private Channel SELECTED_CHANNEL;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -63,7 +65,7 @@ namespace Goosent
 
         private void InitChannelsSets()
         {
-            _setsList = new ChannelsSetsList();
+            SETS_LIST = new ChannelsSetsList();
             InitTestingSets();
         }
 
@@ -73,25 +75,35 @@ namespace Goosent
             set1.AddChannel(new Channel("stopgameru", Resources.GetStringArray(Resource.Array.platformList)[0]));
             set1.AddChannel(new Channel("arthas", Resources.GetStringArray(Resource.Array.platformList)[0]));
             set1.AddChannel(new Channel("riotgames", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            _setsList.AddSet(set1);
+            set1.AddChannel(new Channel("hrthrthtr", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("hrthrthrth", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("jytuykjduy", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("liulkyj", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("bvcbcvb", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("ytyiuyuyo", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("bvxdg", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("xcvv", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("bfvbc", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("jyturt", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("vghrt", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            SETS_LIST.AddSet(set1);
             var set2 = new ChannelsSet("Тестовый сет 2");
             set2.AddChannel(new Channel("esltv_cs", Resources.GetStringArray(Resource.Array.platformList)[0]));
             set2.AddChannel(new Channel("nightblue3", Resources.GetStringArray(Resource.Array.platformList)[0]));
             set2.AddChannel(new Channel("imaqtpie", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            _setsList.AddSet(set2);
+            SETS_LIST.AddSet(set2);
             var set3 = new ChannelsSet("Тестовый сет 3");
             set3.AddChannel(new Channel("lirikk", Resources.GetStringArray(Resource.Array.platformList)[0]));
             set3.AddChannel(new Channel("lirik", Resources.GetStringArray(Resource.Array.platformList)[0]));
             set3.AddChannel(new Channel("meclipse", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            _setsList.AddSet(set3);
-            _selectedSet = _setsList.SetsList[0];
+            SETS_LIST.AddSet(set3);
+            SELECTED_SET = SETS_LIST.SetsList[0];
         }
 
         private void InitFAB()
         {
             fab = (FloatingActionButton)FindViewById(Resource.Id.floatingActionButton);
-            fab.Enabled = false;
-            fab.Alpha = 0.0f;
+            fab.Hide();
 
             fab.Click += Fab_Click;
         }
@@ -104,6 +116,7 @@ namespace Goosent
         private void InitToolbar()
         {
             toolbar = (Android.Support.V7.Widget.Toolbar)FindViewById(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
             toolbar.SetTitle(Resource.String.app_name);
             toolbar.InflateMenu(Resource.Menu.menu);
             InitSpinner();
@@ -113,17 +126,32 @@ namespace Goosent
         {
             spinner = (Spinner)FindViewById(Resource.Id.spinner);
 
-            spinnerAdapter = new ChatsSpinnerArrayAdapter(this, _selectedSet.Channels);
-            spinner.Adapter = spinnerAdapter;
+            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SELECTED_SET.Channels);
+            spinner.Adapter = newSpinnerAdapter;
             spinner.ItemSelected += Spinner_ItemSelected;
             
         }
 
         private void Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            _selectedChannel = _selectedSet.Channels[e.Position];
-            Toast.MakeText(this, "Selected channel: " + _selectedChannel.Name, ToastLength.Short).Show();
-            spinnerAdapter.NotifyDataSetChanged();
+            SetSelectedChannel(SelectedSet.Channels[e.Position]);
+        }
+
+        public void SetSelectedChannel(Channel channel)
+        {
+            SELECTED_CHANNEL = channel;
+            Toast.MakeText(this, "Selected channel: " + SELECTED_CHANNEL.Name, ToastLength.Short).Show();
+        }
+
+        public void UpdateSpinnerContent()
+        {
+            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SELECTED_SET.Channels);
+            if (spinner.Adapter != newSpinnerAdapter)
+            {
+                spinner.Adapter = newSpinnerAdapter;
+            }
+
+            newSpinnerAdapter.NotifyDataSetChanged();
         }
 
         private void InitNavigationView()
@@ -184,22 +212,23 @@ namespace Goosent
             switch (e.Position)
             {
                 case 0:
-                    spinner.Alpha = 1.0f;
-                    fab.Alpha = 0.0f;
-                    fab.Enabled = false;
-                    spinner.Enabled = true;
+                    spinner.Visibility = ViewStates.Visible;
+                    fab.Hide();
+                    break;
+
+                case 1:
+                    spinner.Visibility = ViewStates.Gone;
+                    SupportActionBar.SetTitle(Resource.String.tab_item_select_set);
                     break;
 
                 case 2:
-
+                    spinner.Visibility = ViewStates.Gone;
+                    SupportActionBar.SetTitle(Resource.String.tab_item_edit_set);
                     break;
 
-
                 default:
-                    spinner.Alpha = 0.0f;
-                    fab.Alpha = 1.0f;
-                    fab.Enabled = true;
-                    spinner.Enabled = false;
+                    spinner.Visibility = ViewStates.Gone;
+                    fab.Show();
                     break;
             }
         }
@@ -217,17 +246,24 @@ namespace Goosent
 
         public ChannelsSet SelectedSet
         {
-            get { return _selectedSet; }
+            get { return SELECTED_SET; }
         }
 
         public ChannelsSetsList SetsList
         {
-            get { return _setsList; }
+            get { return SETS_LIST; }
         }
 
         public void SetSelectedSet(ChannelsSet set)
         {
-            _selectedSet = set;
+            if (SELECTED_SET != set)
+            {
+                // Выбран новый сет
+                SELECTED_SET = set;
+                Toast.MakeText(this, "Selected set: " + SELECTED_SET.Name, ToastLength.Short).Show();
+                UpdateSpinnerContent();
+            }
+
         }
     }
 }

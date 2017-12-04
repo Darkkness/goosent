@@ -6,11 +6,11 @@
     android:orientation="vertical"
     android:minWidth="25px"
     android:minHeight="25px">
-  <ListView
+  <android.support.v7.widget.RecyclerView
     android:layout_marginTop="?android:attr/actionBarSize"
         android:minWidth="25px"
         android:minHeight="25px"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editSet_listView" />
+        android:id="@+id/editSet_recyclerView" />
 </RelativeLayout>
