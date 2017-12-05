@@ -213,6 +213,7 @@ namespace Goosent
             {
                 case 0:
                     spinner.Visibility = ViewStates.Visible;
+                    SupportActionBar.
                     fab.Hide();
                     break;
 

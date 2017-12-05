@@ -13,6 +13,7 @@
         android:gravity="center"
         android:textColor="@color/black"
         android:height="40dp"
+        android:width="200dp"
         android:id="@+id/chatsSpinner_ChatName_TextView"
         android:textSize="@dimen/abc_action_bar_content_inset_material" />
 </LinearLayout>
