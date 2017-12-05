@@ -9,7 +9,6 @@
         android:text="_channel_name_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/spinner_background"
         android:gravity="center"
         android:textColor="@color/black"
         android:height="40dp"

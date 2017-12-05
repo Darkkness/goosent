@@ -260,7 +260,7 @@
     <AndroidResource Include="Resources\drawable\listView_selectable_bg.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\spinner_background.xml" />
+    <AndroidResource Include="Resources\drawable\spinner_bg.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ripple_effect.xml" />

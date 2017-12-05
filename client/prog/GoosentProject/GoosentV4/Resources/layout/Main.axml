@@ -46,16 +46,15 @@
             android:elevation="6dp"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:layout_alignParentTop="true"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
           <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/spinner_bg"
             android:id="@+id/spinner"
-            android:layout_below="@+id/toolbar"
-            android:layout_alignLeft="@+id/toolbar"
-            android:layout_alignStart="@+id/toolbar"
+            android:layout_marginLeft="@dimen/spinner_marign"
+            android:layout_marginRight="@dimen/spinner_marign"
             />
 
         </android.support.v7.widget.Toolbar>

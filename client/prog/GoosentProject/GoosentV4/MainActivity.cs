@@ -15,6 +15,7 @@ using Goosent.Adapters;
 using Android.Views.Animations;
 using Android.Content.Res;
 using Android.Graphics;
+using System.IO;
 
 namespace Goosent
 {
@@ -49,7 +50,13 @@ namespace Goosent
         {
             base.OnCreate(savedInstanceState);
 
-            // Set our view from the "main" layout resource
+            dbHandler = new DBHandler(this);
+            dbHandler.AddChannel(new Channel("gosentkappa1", "skype1"));
+            dbHandler.AddChannel(new Channel("gosentkappa2", "skype2"));
+            dbHandler.AddChannel(new Channel("gosentkappa3", "skype3"));
+            dbHandler.GetTableAsString("goosent");
+            dbHandler.GetChannel(0);
+
             SetContentView(Resource.Layout.Main);
             InitChannelsSets();
             InitToolbar();
@@ -213,7 +220,7 @@ namespace Goosent
             {
                 case 0:
                     spinner.Visibility = ViewStates.Visible;
-                    SupportActionBar.
+                    SupportActionBar.SetTitle(Resource.String.tab_item_chat_actionbar);
                     fab.Hide();
                     break;
 
@@ -265,6 +272,11 @@ namespace Goosent
                 UpdateSpinnerContent();
             }
 
+        }
+
+        void SetupDB()
+        {
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "goosentDB.db");
         }
     }
 }

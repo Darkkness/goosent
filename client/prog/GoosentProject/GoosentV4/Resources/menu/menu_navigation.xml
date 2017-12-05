@@ -14,9 +14,5 @@
         android:orderInCategory="2"
         android:title="@string/menu_item_settings"
         android:icon="@drawable/icon_settings"/>
-  <item
-        android:orderInCategory="3"
-        android:title="@string/menu_item_edit_set"
-        android:icon="@drawable/icon_edit"/>
 
 </menu>

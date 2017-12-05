@@ -1990,6 +1990,9 @@ namespace Goosent
 			// aapt resource value: 0x7f07009a
 			public const int notification_top_pad_large_text = 2131165338;
 			
+			// aapt resource value: 0x7f07009c
+			public const int spinner_marign = 2131165340;
+			
 			// aapt resource value: 0x7f070059
 			public const int tooltip_corner_radius = 2131165273;
 			
@@ -2406,7 +2409,7 @@ namespace Goosent
 			public const int ripple_effect = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int spinner_background = 2130837622;
+			public const int spinner_bg = 2130837622;
 			
 			// aapt resource value: 0x7f020077
 			public const int tooltip_frame_dark = 2130837623;
@@ -3444,31 +3447,22 @@ namespace Goosent
 			public const int character_counter_pattern = 2131296291;
 			
 			// aapt resource value: 0x7f090034
-			public const int drawerToggle_close = 2131296308;
+			public const int database_name = 2131296308;
 			
-			// aapt resource value: 0x7f090033
-			public const int drawerToggle_open = 2131296307;
+			// aapt resource value: 0x7f090035
+			public const int database_table_name = 2131296309;
 			
-			// aapt resource value: 0x7f09002a
-			public const int main_screen_tab1_name = 2131296298;
+			// aapt resource value: 0x7f09002f
+			public const int drawerToggle_close = 2131296303;
 			
-			// aapt resource value: 0x7f09002b
-			public const int main_screen_tab2_name = 2131296299;
+			// aapt resource value: 0x7f09002e
+			public const int drawerToggle_open = 2131296302;
 			
 			// aapt resource value: 0x7f09002c
-			public const int main_screen_tab3_name = 2131296300;
+			public const int menu_item_block_screen = 2131296300;
 			
 			// aapt resource value: 0x7f09002d
-			public const int main_screen_tab4_name = 2131296301;
-			
-			// aapt resource value: 0x7f090030
-			public const int menu_item_block_screen = 2131296304;
-			
-			// aapt resource value: 0x7f090032
-			public const int menu_item_edit_set = 2131296306;
-			
-			// aapt resource value: 0x7f090031
-			public const int menu_item_settings = 2131296305;
+			public const int menu_item_settings = 2131296301;
 			
 			// aapt resource value: 0x7f090024
 			public const int password_toggle_content_description = 2131296292;
@@ -3488,26 +3482,26 @@ namespace Goosent
 			// aapt resource value: 0x7f090013
 			public const int search_menu_title = 2131296275;
 			
-			// aapt resource value: 0x7f09002e
-			public const int search_title = 2131296302;
+			// aapt resource value: 0x7f09002a
+			public const int search_title = 2131296298;
 			
-			// aapt resource value: 0x7f09002f
-			public const int showTabLabels = 2131296303;
+			// aapt resource value: 0x7f09002b
+			public const int showTabLabels = 2131296299;
 			
 			// aapt resource value: 0x7f090014
 			public const int status_bar_notification_info_overflow = 2131296276;
 			
-			// aapt resource value: 0x7f090038
-			public const int tabBarHeight = 2131296312;
+			// aapt resource value: 0x7f090031
+			public const int tab_item_chat = 2131296305;
 			
-			// aapt resource value: 0x7f090035
-			public const int tab_item_chat = 2131296309;
+			// aapt resource value: 0x7f090030
+			public const int tab_item_chat_actionbar = 2131296304;
 			
-			// aapt resource value: 0x7f090037
-			public const int tab_item_edit_set = 2131296311;
+			// aapt resource value: 0x7f090033
+			public const int tab_item_edit_set = 2131296307;
 			
-			// aapt resource value: 0x7f090036
-			public const int tab_item_select_set = 2131296310;
+			// aapt resource value: 0x7f090032
+			public const int tab_item_select_set = 2131296306;
 			
 			static String()
 			{
