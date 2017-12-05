@@ -17,50 +17,87 @@ namespace Goosent
     class DBHandler : SQLiteOpenHelper
     {
         string DATABASE_NAME;
-        string TABLE_NAME;
-        const string KEY_ID = "id";
+        string SETS_TABLE_NAME;
+        string CHANNELS_TABLE_NAME;
+        const string KEY_CHANNEL_ID = "id";
         const string KEY_CHANNEL_NAME = "channel_name";
         const string KEY_CHANNEL_PLATFORM = "platform";
-
+        const string KEY_CHANNEL_SET_ID = "channel_set_id";
+        const string KEY_SET_ID = "set_id";
+        const string KEY_SET_NAME = "set_name";
+        
         Context _context;
         public DBHandler(Context context) : base(context, context.Resources.GetString(Resource.String.database_name), null, 1)
         {
             _context = context;
             DATABASE_NAME = _context.Resources.GetString(Resource.String.database_name);
-            TABLE_NAME = _context.Resources.GetString(Resource.String.database_table_name);
+            SETS_TABLE_NAME = _context.Resources.GetString(Resource.String.database_sets_table_name);
+            CHANNELS_TABLE_NAME = _context.Resources.GetString(Resource.String.database_channels_table_name);
         }
+
 
         public override void OnCreate(SQLiteDatabase db)
         {
-            db.ExecSQL("CREATE TABLE " + TABLE_NAME +
-                " (" + KEY_ID + " integer primary key autoincrement, "
+            db.ExecSQL("CREATE TABLE " + SETS_TABLE_NAME +
+                " (" + KEY_SET_ID + " integer primary key autoincrement, "
+                 + KEY_SET_NAME + " text)");
+
+            db.ExecSQL("CREATE TABLE " + CHANNELS_TABLE_NAME +
+                " (" + KEY_CHANNEL_ID + " integer primary key autoincrement, "
                  + KEY_CHANNEL_NAME + " text, "
-                 + KEY_CHANNEL_PLATFORM + " text)");
+                 + KEY_CHANNEL_PLATFORM + " text, "
+                 + KEY_CHANNEL_SET_ID + " integer)");
         }
 
         public override void OnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-            db.ExecSQL("DROP TABLE IF EXISTS " + Resource.String.database_name);
+            db.ExecSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
 
 
             OnCreate(db);
         }
 
-        public void AddChannel(Channel channel)
+        /// <summary>
+        /// Add channel to the local DB
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="set_id"></param>
+        public void AddChannel(Channel channel, int set_id)
         {
             SQLiteDatabase db = WritableDatabase;
             ContentValues values = new ContentValues();
             values.Put(KEY_CHANNEL_NAME, channel.Name);
             values.Put(KEY_CHANNEL_PLATFORM, channel.Platform);
+            values.Put(KEY_CHANNEL_SET_ID, set_id);
 
-            db.Insert(TABLE_NAME, null, values);
+            var id = db.Insert(CHANNELS_TABLE_NAME, null, values);
+            db.Close();
+        }
+
+        /// <summary>
+        /// Add set and all it's channels to the local DB
+        /// </summary>
+        /// <param name="set"></param>
+        public void AddSet(ChannelsSet set)
+        {
+            SQLiteDatabase db = WritableDatabase;
+            ContentValues sets_table_values = new ContentValues();
+
+            sets_table_values.Put(KEY_SET_NAME, set.Name);
+            var id = db.Insert(SETS_TABLE_NAME, null, sets_table_values);
+
+            foreach (Channel channel in set.Channels)
+            {
+                AddChannel(channel, (int)id);
+            }
+
             db.Close();
         }
 
         public Channel GetChannel(int id)
         {
             SQLiteDatabase db = ReadableDatabase;
-            ICursor cursor = db.Query(TABLE_NAME, new string[] { KEY_ID, KEY_CHANNEL_NAME, KEY_CHANNEL_PLATFORM }, KEY_ID + "=?", new string[] { id.ToString() }, null, null, null, null);
+            ICursor cursor = db.Query(CHANNELS_TABLE_NAME, new string[] { KEY_CHANNEL_ID, KEY_CHANNEL_NAME, KEY_CHANNEL_PLATFORM, KEY_CHANNEL_SET_ID }, KEY_CHANNEL_ID + "=?", new string[] { id.ToString() }, null, null, null, null);
             if (cursor != null)
             {
                 cursor.MoveToFirst();
@@ -77,6 +114,29 @@ namespace Goosent
 
             return null;
         }
+
+        public void ClearDatabase()
+        {
+            SQLiteDatabase db = WritableDatabase;
+            try
+            {
+                db.Delete(SETS_TABLE_NAME, null, null);
+            } catch (Exception) {
+
+            };
+            try
+            {
+                db.Delete(CHANNELS_TABLE_NAME, null, null);
+            }
+            catch (Exception)
+            {
+
+            };
+            db.ExecSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='" + CHANNELS_TABLE_NAME + "'");
+            db.ExecSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='" + SETS_TABLE_NAME + "'");
+        }
+
+
 
         public String GetTableAsString(String tableName)
         {
@@ -100,5 +160,17 @@ namespace Goosent
 
             return tableString;
         }
+
+        //public void DeleteDatabase()
+        //{
+        //    try
+        //    {
+        //        _context.DeleteDatabase(DATABASE_NAME);
+        //    } catch (Exception)
+        //    {
+        //        Console.WriteLine("Unable to delete database");
+        //    }
+            
+        //}
     }
 }

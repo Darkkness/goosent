@@ -15,10 +15,11 @@
   <string name="tab_item_edit_set">Edit set</string>
 
   <string name="database_name">goosentDB</string>
-  <string name="database_table_name">goosent</string>
+  <string name="database_sets_table_name">sets_table</string>
+  <string name="database_channels_table_name">channels_table</string>
   
 
-  <string-array name="platformList">
+  <string-array name="avalible_steaming_platforms">
     <item>twitch</item>
     <item>youtube</item>
   </string-array>

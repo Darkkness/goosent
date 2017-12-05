@@ -15,16 +15,71 @@ namespace Goosent.Fragments
 {
     public class AddChatDialogFragment : DialogFragment
     {
+        Spinner spinner;
+        Button submitButton;
+        EditText channelNameEditText;
+
+        Context _context;
+
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
+            _context = ((MainActivity)Activity);
             AlertDialog.Builder builder = new AlertDialog.Builder(Activity);
-            builder.SetTitle("Добавить чат");
             LayoutInflater inflater = Activity.LayoutInflater;
+            View view = inflater.Inflate(Resource.Layout.AddChatDialogLayout, null);
 
-            builder.SetView(inflater.Inflate(Resource.Layout.AddChatDialogLayout, null));
+            spinner = (Spinner)view.FindViewById(Resource.Id.addChat_platform_spinner);
+            submitButton = (Button)view.FindViewById(Resource.Id.addChannel_submit_button);
+            channelNameEditText = (EditText)view.FindViewById(Resource.Id.addChat_channelName_editText);
 
+            submitButton.Click += SubmitButton_Click;
+
+            Adapters.AvalibleStreamingPlatformsArrayAdapter spinnerAdapter = new Adapters.AvalibleStreamingPlatformsArrayAdapter(_context, _context.Resources.GetStringArray(Resource.Array.avalible_steaming_platforms).ToList<string>());
+            spinner.Adapter = spinnerAdapter;
+
+            builder.SetView(view);
+
+            TextView customTitle = new TextView(_context);
+            customTitle.Text = "Добавить чат";
+            customTitle.SetTextSize(ComplexUnitType.Dip, 20);
+            customTitle.Gravity = GravityFlags.Center;
+
+            builder.SetCustomTitle(customTitle);
 
             return builder.Create();
+        }
+
+        private void SubmitButton_Click(object sender, EventArgs e)
+        {
+            // Попробовать добавить чат
+            string channelName = channelNameEditText.Text;
+            string channelPlatform = _context.Resources.GetTextArray(Resource.Array.avalible_steaming_platforms)[spinner.SelectedItemId];
+            if (IsChannelNotInSet(channelName) && IsChannelExist(channelName))
+            {
+                ((MainActivity)_context).SelectedSet.AddChannel(new Channel(channelName, channelPlatform));
+                Toast.MakeText(_context, "Channel " + channelName + " from " + channelPlatform + "was added", ToastLength.Short).Show();
+                Dismiss();
+            }
+        }
+
+        private bool IsChannelNotInSet(string channelName)
+        {
+            foreach (Channel channel in ((MainActivity)_context).SelectedSet.Channels)
+            {
+                if (channel.Name == channelName)
+                {
+
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool IsChannelExist(string channelName)
+        {
+            //TODO: Проверка с помощью API платформы существует ли канал с таким именем
+            return true;
         }
     }
 }

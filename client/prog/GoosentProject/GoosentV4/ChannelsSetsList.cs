@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using Android.Widget;
 
 namespace Goosent
 {
-    public class ChannelsSetsList
+    public class ChannelsSetsList : IEnumerable<ChannelsSet>
     {
         private List<ChannelsSet> _setsList = new List<ChannelsSet>();
         
@@ -29,6 +30,17 @@ namespace Goosent
             _setsList.Add(set);
 
             return true;
+        }
+
+        public IEnumerator<ChannelsSet> GetEnumerator()
+        {
+            return _setsList.GetEnumerator();
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public List<ChannelsSet> SetsList

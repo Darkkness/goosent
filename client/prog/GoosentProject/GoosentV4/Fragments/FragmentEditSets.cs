@@ -57,7 +57,7 @@ namespace Goosent
 
         void UpdateEditSetListView()
         {
-            Console.WriteLine("From EditFragment: " + _currentSet.Name);
+            //TODO: лист не обновляется при изменении текущего сета, а также при добавлении новых каналов. Исправить.
             _currentSet = ((MainActivity)Activity).SelectedSet;
             editSetAdapter.NotifyDataSetChanged();
         }

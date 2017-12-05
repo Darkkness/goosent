@@ -50,12 +50,9 @@ namespace Goosent
         {
             base.OnCreate(savedInstanceState);
 
+            DeleteDatabase("goosentDB");
             dbHandler = new DBHandler(this);
-            dbHandler.AddChannel(new Channel("gosentkappa1", "skype1"));
-            dbHandler.AddChannel(new Channel("gosentkappa2", "skype2"));
-            dbHandler.AddChannel(new Channel("gosentkappa3", "skype3"));
-            dbHandler.GetTableAsString("goosent");
-            dbHandler.GetChannel(0);
+            
 
             SetContentView(Resource.Layout.Main);
             InitChannelsSets();
@@ -63,11 +60,14 @@ namespace Goosent
             InitNavigationView();
             InitTabs();
             InitFAB();
-            
-            
+
+            SaveSetsAndChannelsToDB();
+            dbHandler.GetTableAsString("channels_table");
+            dbHandler.GetTableAsString("sets_table");
+            dbHandler.GetChannel(0);
 
             //dbHandler = new DBHandler(this);
-            
+
         }
 
         private void InitChannelsSets()
@@ -79,30 +79,30 @@ namespace Goosent
         private void InitTestingSets()
         {
             var set1 = new ChannelsSet("Тестовый сет 1");
-            set1.AddChannel(new Channel("stopgameru", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("arthas", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("riotgames", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("hrthrthtr", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("hrthrthrth", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("jytuykjduy", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("liulkyj", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("bvcbcvb", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("ytyiuyuyo", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("bvxdg", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("xcvv", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("bfvbc", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("jyturt", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set1.AddChannel(new Channel("vghrt", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set1.AddChannel(new Channel("stopgameru", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("arthas", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("riotgames", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("hrthrthtr", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("hrthrthrth", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("jytuykjduy", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("liulkyj", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("bvcbcvb", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("ytyiuyuyo", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("bvxdg", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("xcvv", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("bfvbc", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("jyturt", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set1.AddChannel(new Channel("vghrt", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
             SETS_LIST.AddSet(set1);
             var set2 = new ChannelsSet("Тестовый сет 2");
-            set2.AddChannel(new Channel("esltv_cs", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set2.AddChannel(new Channel("nightblue3", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set2.AddChannel(new Channel("imaqtpie", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set2.AddChannel(new Channel("esltv_cs", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set2.AddChannel(new Channel("nightblue3", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set2.AddChannel(new Channel("imaqtpie", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
             SETS_LIST.AddSet(set2);
             var set3 = new ChannelsSet("Тестовый сет 3");
-            set3.AddChannel(new Channel("lirikk", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set3.AddChannel(new Channel("lirik", Resources.GetStringArray(Resource.Array.platformList)[0]));
-            set3.AddChannel(new Channel("meclipse", Resources.GetStringArray(Resource.Array.platformList)[0]));
+            set3.AddChannel(new Channel("lirikk", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set3.AddChannel(new Channel("lirik", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
+            set3.AddChannel(new Channel("meclipse", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
             SETS_LIST.AddSet(set3);
             SELECTED_SET = SETS_LIST.SetsList[0];
         }
@@ -117,7 +117,21 @@ namespace Goosent
 
         private void Fab_Click(object sender, EventArgs e)
         {
-            Toast.MakeText(this, "Fab was pressed", ToastLength.Short).Show();
+            switch (viewPager.CurrentItem)
+            {
+                // Добавить сет
+                case 1:
+                    
+                    break;
+
+                // Добавить канал
+                case 2:
+                    Fragments.AddChatDialogFragment dialogFragment = new Fragments.AddChatDialogFragment();
+                    dialogFragment.Show(FragmentManager, "Add set dialog");
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void InitToolbar()
@@ -127,6 +141,14 @@ namespace Goosent
             toolbar.SetTitle(Resource.String.app_name);
             toolbar.InflateMenu(Resource.Menu.menu);
             InitSpinner();
+        }
+
+        private void SaveSetsAndChannelsToDB()
+        {
+            foreach (ChannelsSet set in SETS_LIST.SetsList)
+            {
+                dbHandler.AddSet(set);
+            }
         }
 
         private void InitSpinner()
@@ -227,16 +249,17 @@ namespace Goosent
                 case 1:
                     spinner.Visibility = ViewStates.Gone;
                     SupportActionBar.SetTitle(Resource.String.tab_item_select_set);
+                    fab.Show();
                     break;
 
                 case 2:
                     spinner.Visibility = ViewStates.Gone;
                     SupportActionBar.SetTitle(Resource.String.tab_item_edit_set);
+                    fab.Show();
                     break;
 
                 default:
                     spinner.Visibility = ViewStates.Gone;
-                    fab.Show();
                     break;
             }
         }

@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\ChatMessagesArrayAdapter.cs" />
+    <Compile Include="Adapters\AvalibleStreamingPlatformsArrayAdapter.cs" />
     <Compile Include="Adapters\ChatsSpinnerArrayAdapter.cs" />
     <Compile Include="Adapters\SelectSetArrayAdapter.cs" />
     <Compile Include="Adapters\EditSetArrayAdapter.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Adapters\TabsPagerFragmentAdapter.cs" />
-    <Compile Include="ServerResponseObject.cs" />
     <Compile Include="UserMessage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +169,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\AddChatDialogLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\PlatformsSpinnerRow.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\PlatformsSpinnerDropRow.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
