@@ -18,12 +18,23 @@ namespace Goosent.Fragments
         Spinner spinner;
         Button submitButton;
         EditText channelNameEditText;
+        string _setTitle;
 
         Context _context;
+        public static AddChatDialogFragment GetInstance(string setTitle)
+        {
+            AddChatDialogFragment fragment = new AddChatDialogFragment();
+            Bundle args = new Bundle();
+            args.PutString("set_title", setTitle);
+            fragment.Arguments = args;
+
+            return fragment;
+        }
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             _context = ((MainActivity)Activity);
+            _setTitle = Arguments.GetString("set_title");
             AlertDialog.Builder builder = new AlertDialog.Builder(Activity);
             LayoutInflater inflater = Activity.LayoutInflater;
             View view = inflater.Inflate(Resource.Layout.AddChatDialogLayout, null);

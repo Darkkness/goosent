@@ -35,7 +35,6 @@ namespace Goosent
         public IEnumerator<ChannelsSet> GetEnumerator()
         {
             return _setsList.GetEnumerator();
-            throw new NotImplementedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

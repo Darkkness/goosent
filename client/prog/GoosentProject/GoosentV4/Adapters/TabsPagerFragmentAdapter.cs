@@ -14,7 +14,7 @@ using Java.Lang;
 
 namespace Goosent
 {
-    class TabsPagerFragmentAdapter : FragmentStatePagerAdapter
+    class TabsPagerFragmentAdapter : FragmentPagerAdapter
     {
         public Dictionary<int, BaseTabFragment> tabs;
         private Context context;
@@ -49,8 +49,8 @@ namespace Goosent
         {
             tabs = new Dictionary<int, BaseTabFragment>();
             tabs.Add(0, FragmentChat.getInstance(context));
-            tabs.Add(1, FragmentSelectSet.getInstance(context));
-            tabs.Add(2, FragmentEditSets.getInstance(context));
+            tabs.Add(1, FragmentEditSets.getInstance(context));
+            //tabs.Add(2, FragmentEditSets.getInstance(context));
         }
 
     }

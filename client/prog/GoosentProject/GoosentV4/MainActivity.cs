@@ -42,7 +42,7 @@ namespace Goosent
         List<string> chatsInSet = new List<string>();
 
         // Все что касается сетов
-        private ChannelsSet SELECTED_SET;
+        private int SELECTED_SET_INDEX;
         private ChannelsSetsList SETS_LIST;
         private Channel SELECTED_CHANNEL;
 
@@ -104,7 +104,7 @@ namespace Goosent
             set3.AddChannel(new Channel("lirik", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
             set3.AddChannel(new Channel("meclipse", Resources.GetStringArray(Resource.Array.avalible_steaming_platforms)[0]));
             SETS_LIST.AddSet(set3);
-            SELECTED_SET = SETS_LIST.SetsList[0];
+            SELECTED_SET_INDEX = 0;
         }
 
         private void InitFAB()
@@ -117,21 +117,7 @@ namespace Goosent
 
         private void Fab_Click(object sender, EventArgs e)
         {
-            switch (viewPager.CurrentItem)
-            {
-                // Добавить сет
-                case 1:
-                    
-                    break;
-
-                // Добавить канал
-                case 2:
-                    Fragments.AddChatDialogFragment dialogFragment = new Fragments.AddChatDialogFragment();
-                    dialogFragment.Show(FragmentManager, "Add set dialog");
-                    break;
-                default:
-                    break;
-            }
+            Console.WriteLine(SELECTED_SET_INDEX);
         }
 
         private void InitToolbar()
@@ -155,7 +141,7 @@ namespace Goosent
         {
             spinner = (Spinner)FindViewById(Resource.Id.spinner);
 
-            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SELECTED_SET.Channels);
+            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SetsList.SetsList[SELECTED_SET_INDEX].Channels);
             spinner.Adapter = newSpinnerAdapter;
             spinner.ItemSelected += Spinner_ItemSelected;
             
@@ -174,7 +160,7 @@ namespace Goosent
 
         public void UpdateSpinnerContent()
         {
-            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SELECTED_SET.Channels);
+            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SetsList.SetsList[SELECTED_SET_INDEX].Channels);
             if (spinner.Adapter != newSpinnerAdapter)
             {
                 spinner.Adapter = newSpinnerAdapter;
@@ -230,8 +216,7 @@ namespace Goosent
             tabLayout.SetupWithViewPager(viewPager);
 
             tabLayout.GetTabAt(0).SetIcon(Resource.Drawable.ic_tab_chat);
-            tabLayout.GetTabAt(1).SetIcon(Resource.Drawable.ic_tab_select_set);
-            tabLayout.GetTabAt(2).SetIcon(Resource.Drawable.ic_tab_edit_set);
+            tabLayout.GetTabAt(1).SetIcon(Resource.Drawable.ic_tab_edit_set);
         }
 
         // Выполняется каждый раз, когда меняется страница в ViewPager
@@ -275,9 +260,16 @@ namespace Goosent
             tabLayout.AddTab(newTab);
         }
 
+
+        public int SelectedSetIndex
+        {
+            get { return SELECTED_SET_INDEX; }
+            set { SELECTED_SET_INDEX = value; UpdateSpinnerContent(); }
+        }
+
         public ChannelsSet SelectedSet
         {
-            get { return SELECTED_SET; }
+            get { return SetsList.SetsList[SELECTED_SET_INDEX]; }
         }
 
         public ChannelsSetsList SetsList
@@ -285,17 +277,7 @@ namespace Goosent
             get { return SETS_LIST; }
         }
 
-        public void SetSelectedSet(ChannelsSet set)
-        {
-            if (SELECTED_SET != set)
-            {
-                // Выбран новый сет
-                SELECTED_SET = set;
-                Toast.MakeText(this, "Selected set: " + SELECTED_SET.Name, ToastLength.Short).Show();
-                UpdateSpinnerContent();
-            }
 
-        }
 
         void SetupDB()
         {

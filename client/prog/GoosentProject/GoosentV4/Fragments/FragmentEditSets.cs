@@ -19,8 +19,9 @@ namespace Goosent
     public class FragmentEditSets : BaseTabFragment
     {
         RecyclerView editSetRecyclerView;
-        private Adapters.EditSetArrayAdapter editSetAdapter;
-        public ChannelsSet _currentSet;
+        private Adapters.EditSetRecyclerViewAdapter editSetAdapter;
+        public ChannelsSetsList _setList;
+        private int _currentSetIndex;
 
         public static FragmentEditSets getInstance(Context context)
         {
@@ -38,9 +39,10 @@ namespace Goosent
             // Use this to return your custom view for this Fragment
             view = inflater.Inflate(Resource.Layout.FragmentEditSetLayout, container, false);
 
-            _currentSet = ((MainActivity)Activity).SelectedSet;
+            _currentSetIndex = ((MainActivity)Activity).SelectedSetIndex;
+            _setList = ((MainActivity)Activity).SetsList;
             editSetRecyclerView = (RecyclerView)view.FindViewById(Resource.Id.editSet_recyclerView);
-            editSetAdapter = new Adapters.EditSetArrayAdapter(context, _currentSet);
+            editSetAdapter = new Adapters.EditSetRecyclerViewAdapter(Activity, _setList);
             editSetRecyclerView.SetLayoutManager(new LinearLayoutManager(context));
             editSetAdapter.ItemClick += EditSetAdapter_ItemClick;
             editSetRecyclerView.SetAdapter(editSetAdapter);
@@ -52,13 +54,16 @@ namespace Goosent
 
         private void EditSetAdapter_ItemClick(object sender, int e)
         {
-            Toast.MakeText(context, "Item clicked" + e.ToString(), ToastLength.Short).Show();
+            Toast.MakeText(context, "Selected item: " + e.ToString(), ToastLength.Short).Show();
+            _currentSetIndex = e;
+            ((MainActivity)Activity).SelectedSetIndex = e;
+            editSetAdapter.NotifyDataSetChanged();
         }
 
         void UpdateEditSetListView()
         {
             //TODO: лист не обновляется при изменении текущего сета, а также при добавлении новых каналов. Исправить.
-            _currentSet = ((MainActivity)Activity).SelectedSet;
+            _currentSetIndex = ((MainActivity)Activity).SelectedSetIndex;
             editSetAdapter.NotifyDataSetChanged();
         }
 
