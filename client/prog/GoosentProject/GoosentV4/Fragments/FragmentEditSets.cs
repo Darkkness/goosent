@@ -56,11 +56,13 @@ namespace Goosent
         {
             Toast.MakeText(context, "Selected item: " + e.ToString(), ToastLength.Short).Show();
             _currentSetIndex = e;
+
+            // Смена индекса выбранного сета в мейн активити
             ((MainActivity)Activity).SelectedSetIndex = e;
             editSetAdapter.NotifyDataSetChanged();
         }
 
-        void UpdateEditSetListView()
+        public void UpdateEditSetListView()
         {
             //TODO: лист не обновляется при изменении текущего сета, а также при добавлении новых каналов. Исправить.
             _currentSetIndex = ((MainActivity)Activity).SelectedSetIndex;

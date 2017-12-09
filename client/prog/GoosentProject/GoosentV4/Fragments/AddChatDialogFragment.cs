@@ -19,13 +19,14 @@ namespace Goosent.Fragments
         Button submitButton;
         EditText channelNameEditText;
         string _setTitle;
+        int _setIndex;
 
         Context _context;
-        public static AddChatDialogFragment GetInstance(string setTitle)
+        public static AddChatDialogFragment GetInstance(int setindex)
         {
             AddChatDialogFragment fragment = new AddChatDialogFragment();
             Bundle args = new Bundle();
-            args.PutString("set_title", setTitle);
+            args.PutInt("set_index", setindex);
             fragment.Arguments = args;
 
             return fragment;
@@ -34,7 +35,7 @@ namespace Goosent.Fragments
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             _context = ((MainActivity)Activity);
-            _setTitle = Arguments.GetString("set_title");
+            _setIndex = Arguments.GetInt("set_index");
             AlertDialog.Builder builder = new AlertDialog.Builder(Activity);
             LayoutInflater inflater = Activity.LayoutInflater;
             View view = inflater.Inflate(Resource.Layout.AddChatDialogLayout, null);
@@ -51,7 +52,7 @@ namespace Goosent.Fragments
             builder.SetView(view);
 
             TextView customTitle = new TextView(_context);
-            customTitle.Text = "Добавить чат";
+            customTitle.Text = "Добавить чат в сет '" + ((MainActivity)_context).SetsList.SetsList[_setIndex].Name + "'";
             customTitle.SetTextSize(ComplexUnitType.Dip, 20);
             customTitle.Gravity = GravityFlags.Center;
 
@@ -67,8 +68,8 @@ namespace Goosent.Fragments
             string channelPlatform = _context.Resources.GetTextArray(Resource.Array.avalible_steaming_platforms)[spinner.SelectedItemId];
             if (IsChannelNotInSet(channelName) && IsChannelExist(channelName))
             {
-                ((MainActivity)_context).SelectedSet.AddChannel(new Channel(channelName, channelPlatform));
-                Toast.MakeText(_context, "Channel " + channelName + " from " + channelPlatform + "was added", ToastLength.Short).Show();
+                ((MainActivity)_context).AddChannel(_setIndex, new Channel(channelName, channelPlatform));
+                Toast.MakeText(_context, "Channel " + channelName + " from " + channelPlatform + "was added to the set " + ((MainActivity)_context).SetsList.SetsList[_setIndex].Name, ToastLength.Short).Show();
                 Dismiss();
             }
         }

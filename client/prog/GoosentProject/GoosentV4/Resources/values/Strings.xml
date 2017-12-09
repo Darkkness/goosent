@@ -17,7 +17,8 @@
   <string name="database_name">goosentDB</string>
   <string name="database_sets_table_name">sets_table</string>
   <string name="database_channels_table_name">channels_table</string>
-  
+
+  <string name="add_channel_view_text">Добавить</string>
 
   <string-array name="avalible_steaming_platforms">
     <item>twitch</item>

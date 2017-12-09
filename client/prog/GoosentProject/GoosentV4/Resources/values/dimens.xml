@@ -6,4 +6,7 @@
 
   <dimen name="set_cardview_corners_radius">5dp</dimen>
   <dimen name="set_cardview_margin">8dp</dimen>
+
+  <dimen name="setCardElevation">4dp</dimen>
+  <dimen name="setCardSelectedElevation">8dp</dimen>
 </resources>

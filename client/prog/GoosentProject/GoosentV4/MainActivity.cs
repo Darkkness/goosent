@@ -19,7 +19,7 @@ using System.IO;
 
 namespace Goosent
 {
-    [Activity(Label = "Goosent", MainLauncher = true)]
+    [Activity(Label = "Goosent", MainLauncher = true, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MainActivity : Android.Support.V7.App.AppCompatActivity
     {
         private ViewPager viewPager;
@@ -117,7 +117,8 @@ namespace Goosent
 
         private void Fab_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(SELECTED_SET_INDEX);
+            Fragments.AddSetDialogFragment addSetFragmentDialogFragment = Fragments.AddSetDialogFragment.GetInstance();
+            addSetFragmentDialogFragment.Show(FragmentManager, "add set dialog");
         }
 
         private void InitToolbar()
@@ -126,7 +127,7 @@ namespace Goosent
             SetSupportActionBar(toolbar);
             toolbar.SetTitle(Resource.String.app_name);
             toolbar.InflateMenu(Resource.Menu.menu);
-            InitSpinner();
+            InitActionBarSpinner();
         }
 
         private void SaveSetsAndChannelsToDB()
@@ -137,7 +138,7 @@ namespace Goosent
             }
         }
 
-        private void InitSpinner()
+        private void InitActionBarSpinner()
         {
             spinner = (Spinner)FindViewById(Resource.Id.spinner);
 
@@ -277,6 +278,30 @@ namespace Goosent
             get { return SETS_LIST; }
         }
 
+        public void AddSet(ChannelsSet set)
+        {
+            SetsList.AddSet(set);
+        }
+
+        public void AddChannel(int setIndex, Channel channel)
+        {
+            SetsList.SetsList[setIndex].AddChannel(channel);
+            ((FragmentEditSets)fragmentPagerAdapter.tabs[1]).UpdateEditSetListView();
+        }
+
+        public bool IsSetExist(string name)
+        {
+            foreach (ChannelsSet set in SetsList.SetsList)
+            {
+                if (set.Name == name)
+                {
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 
         void SetupDB()

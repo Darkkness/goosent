@@ -64,19 +64,24 @@ namespace Goosent
             fakeMessages.Add("General Kenobi!");
         }
 
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            chatAdapter = new Adapters.ChatMessagesArrayAdapter(context, chatMessages);
+            chatListView = (ListView)view.FindViewById(Resource.Id.chat_list_view);
+
+
+            chatListView.Adapter = chatAdapter;
+            StartConstantChatUpdating();
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
             view = inflater.Inflate(Resource.Layout.FragmentChatLayout, container, false);
             TempInitFake();
 
-            chatListView = (ListView)view.FindViewById(Resource.Id.chat_list_view);
-
-
-            chatAdapter = new Adapters.ChatMessagesArrayAdapter(context, chatMessages);
-
-            chatListView.Adapter = chatAdapter;
-            StartConstantChatUpdating();
+            
 
             return view;
         }
