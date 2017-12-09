@@ -61,14 +61,14 @@ namespace Goosent
         /// Add channel to the local DB
         /// </summary>
         /// <param name="channel"></param>
-        /// <param name="set_id"></param>
-        public void AddChannel(Channel channel, int set_id)
+        /// <param name="setIndex"></param>
+        public void AddChannel(Channel channel, int setIndex)
         {
             SQLiteDatabase db = WritableDatabase;
             ContentValues values = new ContentValues();
             values.Put(KEY_CHANNEL_NAME, channel.Name);
             values.Put(KEY_CHANNEL_PLATFORM, channel.Platform);
-            values.Put(KEY_CHANNEL_SET_ID, set_id);
+            values.Put(KEY_CHANNEL_SET_ID, setIndex + 1);
 
             var id = db.Insert(CHANNELS_TABLE_NAME, null, values);
             db.Close();
@@ -138,27 +138,43 @@ namespace Goosent
 
 
 
-        public String GetTableAsString(String tableName)
+        public ChannelsSetsList GetDataFromDB()
         {
+            ChannelsSetsList setsList = new ChannelsSetsList();
             SQLiteDatabase db = ReadableDatabase;
-            String tableString = string.Format("Table {0}\n", tableName);
-            ICursor allRows = db.RawQuery("SELECT * FROM " + tableName, null);
-            if (allRows.MoveToFirst())
+            
+            // Работа с сетами
+            ICursor allSets = db.RawQuery("SELECT * FROM " + SETS_TABLE_NAME, null);
+            if (allSets.MoveToFirst())
             {
-                String[] columnNames = allRows.GetColumnNames();
+                String[] columnNames = allSets.GetColumnNames();
                 do
                 {
-                    foreach (String name in columnNames)
-                    {
-                        tableString += string.Format("{0}: {1}\n", name,
-                                allRows.GetString(allRows.GetColumnIndex(name)));
-                    }
-                    tableString += "\n";
+                    // Проходимся по каждому сету в таблице сетов и создаем новый объект сета
+                    var a = allSets.GetString(allSets.GetColumnIndex(columnNames[0]));
+                    setsList.AddSet(new ChannelsSet(allSets.GetString(allSets.GetColumnIndex(columnNames[1]))));
 
-                } while (allRows.MoveToNext());
+                } while (allSets.MoveToNext());
             }
 
-            return tableString;
+            // Работа с каналами
+            ICursor allChannels = db.RawQuery("SELECT * FROM " + CHANNELS_TABLE_NAME, null);
+            if (allChannels.MoveToFirst())
+            {
+                String[] columnNames = allChannels.GetColumnNames();
+                do
+                {
+                    // Проходимся по каждому каналу в таблице каналов
+                    var channelName = allChannels.GetString(allChannels.GetColumnIndex(columnNames[1]));
+                    var channelPlatform = allChannels.GetString(allChannels.GetColumnIndex(columnNames[2]));
+                    var channelSetIndex = allChannels.GetString(allChannels.GetColumnIndex(columnNames[3]));
+                    Channel channel = new Channel(channelName, channelPlatform);
+                    setsList.AddChannel(channel, Int32.Parse(channelSetIndex) - 1);
+
+                } while (allChannels.MoveToNext());
+            }
+
+            return setsList;
         }
 
         //public void DeleteDatabase()

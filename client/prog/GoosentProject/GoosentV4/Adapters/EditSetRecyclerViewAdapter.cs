@@ -28,7 +28,7 @@ namespace Goosent.Adapters
         public EditSetRecyclerViewAdapter(Context context, ChannelsSetsList channelsSet)
         {
             mContext = context;
-            _setsList = channelsSet.SetsList;
+            _setsList = channelsSet.GetSetsList;
             display = ((Activity)mContext).WindowManager.DefaultDisplay;
 
         }

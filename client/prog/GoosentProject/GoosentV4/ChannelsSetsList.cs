@@ -16,7 +16,7 @@ namespace Goosent
     public class ChannelsSetsList : IEnumerable<ChannelsSet>
     {
         private List<ChannelsSet> _setsList = new List<ChannelsSet>();
-        
+
         public bool AddSet(ChannelsSet set)
         {
             // false если уже есть сет с таким именем
@@ -32,6 +32,22 @@ namespace Goosent
             return true;
         }
 
+        public void AddChannel(Channel channel, int setIndex)
+        {
+            try
+            {
+                _setsList[setIndex].AddChannel(channel);
+            } catch (Exception)
+            {
+                Console.WriteLine("Не удалось добавить канал из класса ChannelsSetsList");
+            }
+
+        }
+
+        public int Count {
+            get { return _setsList.Count; }
+            }
+
         public IEnumerator<ChannelsSet> GetEnumerator()
         {
             return _setsList.GetEnumerator();
@@ -42,7 +58,7 @@ namespace Goosent
             return GetEnumerator();
         }
 
-        public List<ChannelsSet> SetsList
+        public List<ChannelsSet> GetSetsList
         {
             get { return _setsList; }
         }

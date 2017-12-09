@@ -52,7 +52,7 @@ namespace Goosent.Fragments
             builder.SetView(view);
 
             TextView customTitle = new TextView(_context);
-            customTitle.Text = "Добавить чат в сет '" + ((MainActivity)_context).SetsList.SetsList[_setIndex].Name + "'";
+            customTitle.Text = "Добавить чат в сет '" + ((MainActivity)_context).SetsList.GetSetsList[_setIndex].Name + "'";
             customTitle.SetTextSize(ComplexUnitType.Dip, 20);
             customTitle.Gravity = GravityFlags.Center;
 
@@ -69,7 +69,7 @@ namespace Goosent.Fragments
             if (IsChannelNotInSet(channelName) && IsChannelExist(channelName))
             {
                 ((MainActivity)_context).AddChannel(_setIndex, new Channel(channelName, channelPlatform));
-                Toast.MakeText(_context, "Channel " + channelName + " from " + channelPlatform + "was added to the set " + ((MainActivity)_context).SetsList.SetsList[_setIndex].Name, ToastLength.Short).Show();
+                Toast.MakeText(_context, "Channel " + channelName + " from " + channelPlatform + "was added to the set " + ((MainActivity)_context).SetsList.GetSetsList[_setIndex].Name, ToastLength.Short).Show();
                 Dismiss();
             }
         }

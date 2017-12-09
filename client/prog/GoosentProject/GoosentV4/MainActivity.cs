@@ -50,10 +50,9 @@ namespace Goosent
         {
             base.OnCreate(savedInstanceState);
 
-            DeleteDatabase("goosentDB");
             dbHandler = new DBHandler(this);
-            
 
+            //dbHandler.ClearDatabase();
             SetContentView(Resource.Layout.Main);
             InitChannelsSets();
             InitToolbar();
@@ -61,19 +60,12 @@ namespace Goosent
             InitTabs();
             InitFAB();
 
-            SaveSetsAndChannelsToDB();
-            dbHandler.GetTableAsString("channels_table");
-            dbHandler.GetTableAsString("sets_table");
-            dbHandler.GetChannel(0);
-
-            //dbHandler = new DBHandler(this);
-
         }
 
         private void InitChannelsSets()
         {
             SETS_LIST = new ChannelsSetsList();
-            InitTestingSets();
+            SETS_LIST = dbHandler.GetDataFromDB();
         }
 
         private void InitTestingSets()
@@ -127,22 +119,18 @@ namespace Goosent
             SetSupportActionBar(toolbar);
             toolbar.SetTitle(Resource.String.app_name);
             toolbar.InflateMenu(Resource.Menu.menu);
-            InitActionBarSpinner();
-        }
-
-        private void SaveSetsAndChannelsToDB()
-        {
-            foreach (ChannelsSet set in SETS_LIST.SetsList)
+            if (SETS_LIST.Count > 0)
             {
-                dbHandler.AddSet(set);
+                InitActionBarSpinner();
             }
         }
+
 
         private void InitActionBarSpinner()
         {
             spinner = (Spinner)FindViewById(Resource.Id.spinner);
 
-            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SetsList.SetsList[SELECTED_SET_INDEX].Channels);
+            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SetsList.GetSetsList[SELECTED_SET_INDEX].Channels);
             spinner.Adapter = newSpinnerAdapter;
             spinner.ItemSelected += Spinner_ItemSelected;
             
@@ -161,7 +149,7 @@ namespace Goosent
 
         public void UpdateSpinnerContent()
         {
-            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SetsList.SetsList[SELECTED_SET_INDEX].Channels);
+            newSpinnerAdapter = new ChatsSpinnerArrayAdapter(this, SetsList.GetSetsList[SELECTED_SET_INDEX].Channels);
             if (spinner.Adapter != newSpinnerAdapter)
             {
                 spinner.Adapter = newSpinnerAdapter;
@@ -227,25 +215,37 @@ namespace Goosent
             switch (e.Position)
             {
                 case 0:
-                    spinner.Visibility = ViewStates.Visible;
+                    if (AreSetsExist)
+                    {
+                        spinner.Visibility = ViewStates.Visible;
+                    }
                     SupportActionBar.SetTitle(Resource.String.tab_item_chat_actionbar);
                     fab.Hide();
                     break;
 
                 case 1:
-                    spinner.Visibility = ViewStates.Gone;
+                    if (AreSetsExist)
+                    {
+                        spinner.Visibility = ViewStates.Visible;
+                    }
                     SupportActionBar.SetTitle(Resource.String.tab_item_select_set);
                     fab.Show();
                     break;
 
                 case 2:
-                    spinner.Visibility = ViewStates.Gone;
+                    if (AreSetsExist)
+                    {
+                        spinner.Visibility = ViewStates.Visible;
+                    }
                     SupportActionBar.SetTitle(Resource.String.tab_item_edit_set);
                     fab.Show();
                     break;
 
                 default:
-                    spinner.Visibility = ViewStates.Gone;
+                    if (AreSetsExist)
+                    {
+                        spinner.Visibility = ViewStates.Visible;
+                    }
                     break;
             }
         }
@@ -270,7 +270,7 @@ namespace Goosent
 
         public ChannelsSet SelectedSet
         {
-            get { return SetsList.SetsList[SELECTED_SET_INDEX]; }
+            get { return SetsList.GetSetsList[SELECTED_SET_INDEX]; }
         }
 
         public ChannelsSetsList SetsList
@@ -281,17 +281,21 @@ namespace Goosent
         public void AddSet(ChannelsSet set)
         {
             SetsList.AddSet(set);
+            dbHandler.AddSet(set);
+            InitActionBarSpinner();
+            ((FragmentEditSets)fragmentPagerAdapter.tabs[1]).UpdateEditSetListView();
         }
 
         public void AddChannel(int setIndex, Channel channel)
         {
-            SetsList.SetsList[setIndex].AddChannel(channel);
+            SetsList.GetSetsList[setIndex].AddChannel(channel);
+            dbHandler.AddChannel(channel, setIndex);
             ((FragmentEditSets)fragmentPagerAdapter.tabs[1]).UpdateEditSetListView();
         }
 
         public bool IsSetExist(string name)
         {
-            foreach (ChannelsSet set in SetsList.SetsList)
+            foreach (ChannelsSet set in SetsList.GetSetsList)
             {
                 if (set.Name == name)
                 {
@@ -303,6 +307,17 @@ namespace Goosent
             return false;
         }
 
+        public bool AreSetsExist
+        {
+            get {
+                if (SETS_LIST.Count == 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
         void SetupDB()
         {
