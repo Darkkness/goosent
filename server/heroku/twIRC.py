@@ -4,7 +4,7 @@ import socket
 token = 'oauth:aew3ogk12mdl0lob3gt08cph4mhro1'
 client_id = 'xb82yspb0vysx265h5oabocd6ytq6w'
 nick = 'goosentproject'
-channel = ['miwarapoport', 'korob22']
+channel = ['miwarapoport']
 #i = 'miwarapoport'
 
 server = 'irc.chat.twitch.tv'
